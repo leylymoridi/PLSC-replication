@@ -1,0 +1,162 @@
+---
+title: "Follow the Money: Where Foreign Aid Shows Greatest Promise for Democracy"
+author: "Isabel Linzer and Leyly Moridi"
+format:
+  cmc-article-pdf:
+    fontsize: 12pt
+    margin-left: 1.5in
+    margin-right: 1.5in
+    margin-bottom: 1.2in
+    margin-top: 1.2in
+    keep-tex: true
+    fig-pos: 'tbp'
+    tbl-pos: 'tbp'
+    include-in-header: header.tex
+abstract: In a time of economic uncertainty and increasing isolationism, how much foreign aid should be granted and who should receive it are central policy questions. Building on Carnegie and Marinov (2017), we investigate whether the development status of a recipient country moderates variation in the impact of EU foreign aid on democratization. We apply the Carnegie and Marinov (2017) instrumental variable estimation to a dataset now divided by quartiles based on educational attainment. Our evidence presents a compelling argument for greater research into the allocation of aid to countries with the lowest levels of education, highlighting potential pathways for distributing development assistance to the greatest effect.  
+
+---
+
+# Introduction
+The effectiveness of foreign aid in strengthening the democracy of recipient countries is widely contested. Scholars have argued that channeling foreign aid into legislative and judicial bodies bolsters democratic institutions, thereby decreasing susceptibility to executive power (Knack 2004, Gafuri 2022). Democratization may also arise when the allocation of development assistance hinges on whether the recipient fulfils certain political commitments, a term known as “conditionality”. (Knack 2004). Finally, aid-associated gains in educational attainment, which may drive improvements in human capital and in turn increase household income, a correlate of democracy (Knack 2004). 
+
+This paper follows, and seeks to extend,[^1] the analysis of the effectiveness of European Union (EU) aid on democratization conducted by Carnegie and Marinov (2017). The authors assess democratic strength in terms of the Cingranelli-Richards (CIRI) index and a four-year average of the Polity IV Combined Score. Whilst the authors provide evidence for a positive relationship between the allocation of aid and democratization, the question of aid prioritization remains unaddressed. In an era of emerging isolationism and calls to curb development assistance, it is increasingly critical to understand how to target limited foreign aid to yield the greatest impact among low and middle-income countries. We are therefore most interested in whether the effect of aid shrinks or grows based on the development status of a country, for example, whether a lack of institutional strength in the poorest countries hinders the potential effectiveness of aid. 
+
+[^1]: https://github.com/leylymoridi/PLSC-replication.git
+
+In the context of extending the Carnegie and Marinov (2017) paper, we argue that GDP per capita is not an appropriate tool for measuring development given that national wealth is too closely correlated with the country by which it was colonized. For example, former French colonies constitute the most indigent countries in the world, despite having income levels roughly equivalent to former British colonies at the time of independence. Between 1970 and 2015 income per capita has surged two-fold in countries colonized by the British but has grown at a mere 25% in French colonies during the same period (Bergy and Fink 2018). In comparison, former Spanish colonies in Latin America and the Caribbean are overwhelming middle-income, with only a handful meeting the threshold for upper or lower middle-income status. The only low-income country in the region is Haiti, a French colony (OECD et al 2019). 
+
+As a result, we propose using mean years of male education as a proxy for development status, given that educational attainment is less strongly correlated with colonial status compared to GDP per capita. Although efforts to map educational attainment demonstrate that, on the extreme end of the spectrum, the lowest levels of mean education are among French ex-colonies located in sub-Saharan Africa, the percentage of the male population completing at least lower secondary education is more evenly distributed across major colonizing forces across the spectrum (Graetz et al. 2019). This is partly attributable to the variation in the longevity and nature of the educational legacy left by colonizers, for instance, though fiercely oppressive, the education systems in former French colonies were secular and almost entirely publicly-run, unlike those of former Spanish colonies which were gender segregated and focused largely on religious education (Feldmann 2016). Enrollment in educational institutions increased during the French decolonization period, although education structures and language were largely maintained after independence, with a notable exception being Laos (Feldmann 2016). The distribution of countries by mean years of male education is demonstrated in @fig-example. 
+
+![World Map Highlighting Countries by Quartile of Average Years of Male Education](figures/map.png){#fig-example width="100%"}
+
+The objective of this study is to assess the role of baseline education as a determinant of aid effectiveness in recipient countries, which is to say, whether the impact of foreign aid is greater in countries with higher human capital. 
+
+ 
+# Data and Methods
+The Carnegie and Marinov paper uses two outcome variables to measure the effect of aid on human rights and democracy. Our replication and the extension use the same two variables. The first outcome variable is the Human Empowerment Index from the Cingranelli Richards (CIRI) Human Rights Dataset. The index is a combined measure of foreign movement, domestic movement, freedom of speech, freedom of assembly and association, worker’s rights, electoral self-determination, and freedom of religion (Carnegie and Marinov 2017). The second outcome variable is the Polity IV Combined Score, which measures each country on a range of strongly democratic to strongly autocratic according to the competitiveness of executive recruitment, openness of executive recruitment, constraint on chief executive, and competitiveness of political participation (Marshall et al 2017).  
+
+
+## Replication
+
+We replicate Carnegie and Marinov’s assessment of the effect of EU foreign aid on democracy in the recipient country by using a two-stage least squares estimation, or instrumental variable model. The two-stage model is appropriate because EU aid is not randomly assigned, given that countries holding the Council presidency have a tendency to prioritize the allocation of aid to former colonies. The allocation of aid by the EU Council is not random, but the Council presidency rotates on an as-good-as-random basis according to the alphabetical order of each country’s name in its national language.  
+
+
+The random rotation of presidency is an “exogenous shock” which impacts only the allocation of aid – the treatment variable. As a result, we follow Carnegie and Marinov in instrumenting for the colonial status of the country holding the presidency. The colonial status variable is twice lagged to account for the delay between the allocation of aid and its disbursement, as well as the gap between disbursement and impact on the recipient country. 
+
+The first stage regresses the colonial status of the EU council president on the allocation of aid. The second stage regresses the fitted values from the first stage on democracy strength, as measured by CIRI and Polity IV scores. The estimating equation for the reduced form of the instrumental variable model is: 
+
+$$DV_{it'} = \beta_{0} + \beta_{1}log(ODA)_{i(t - 1)} + \sum_{k\epsilon K}\beta_{k}I(i = k) +\sum_{j\epsilon J}\beta_{j}I(t = j) + u_{it}$$
+
+where $DV_{it’}$ is the democracy outcome variable (CIRI or Polity VI) for country $i$ in year $t’$, the summation equations are fixed effects for country ($i$) and year ($t$), $u_{it}$ is an error term, and $log(ODA)_{i(t - 1)}$ is the fitted values from the first-stage regression:
+
+$$log(ODA)_{i(t - 1)} = \gamma_{0} + \gamma_{1}Colony_{i(t-2)2} + \sum_{k\epsilon K}\gamma_{k}I(i=k) +\sum_{j\epsilon J}\gamma_{j}I(t=j)+e_{it}.$$
+
+For each outcome variable, Carnegie and Marinov (2017) use both a simple and covariate-adjusted specification. Both the simple and adjusted regressions include robust standard error clustered by country and year, and country and year fixed effects. The adjusted regression also controls for nine covariates, all of which are twice-lagged: logged exports, logged imports, foreign direct investment, religiosity, petroleum imports as a percent of GDP, average education attainment, number of democracies in the region, logged GDP, logged GDP per capita, and logged population. For reference, Table 1 demonstrates the summary statistics for these covariates. 
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/summary_table.tex}
+\end{table}
+```
+
+## Extension
+Our extension of the Carnegie and Marinov (2017) paper relies on the original dataset, but subsets it for further analysis. We divide the countries into quartiles based on the mean years of education for males in each country (see Appendix for a table demonstrating mean education years by quartile). We retain the original assumptions by Carnegie and Marinov (2017): first, colonial status of the EU Council presidency is randomly assigned and secondly, that colonial status has a statistically significant effect on EU aid. 
+
+The estimating equation remains identical to the specification in the replication; our extension relies on changing the underlying data. For each quartile, we apply the simple and adjusted specifications to both outcome variables. We continue to include years of average education attainment as a covariate in the adjusted regression, to control for variation within each quartile.  
+
+# Results
+First, we will present the findings from our replication of the Carnegie and Marinov (2017) paper, which seeks to identify whether foreign aid has an impact on CIRI index and Polity IV Combined Score when instrumenting for the colonial status of the EU Council presidency. We will then shift our focus to analyzing the impact of foreign aid on these indicators across quartiles of mean years of male education. 
+
+## Replication
+Our main results (Table 2) reflect those obtained by Carnegie and Marinov (2017). Our replicated findings for the simple regression model demonstrate that foreign aid leads to an increase on both Polity IV Combined score with a coefficient of 2.031 [SE = 0.708, p < 0.01] and CIRI index, which has a coefficient of 1.885 [SE = 0.946, p < 0.1]. In practice, this indicates that a one-log unit increase in EU aid would increase the Polity Score by 2.031 units and the CIRI index score by 1.885 units. Whilst the simple regression results suggest that foreign aid has a marginally stronger effect on Polity IV Combined Score, it should be noted that the coefficient for the CIRI index is not significant at an alpha level of 0.05.  
+
+However, the covariate-adjusted models indicate a statistically significant relationship between foreign aid and both indicators. The adjusted regression yields a coefficient of 1.705 for the CIRI index [SE = 0.814, p < 0.05] and 1.337 [SE = 0.502, p < 0.05] for the Polity IV Combined Score.  
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/replication_table.tex}
+\end{table}
+```
+
+## Extension
+The extension comprised sixteen individual regressions which re-used the simple and covariate-adjusted models to evaluate the effect of EU foreign aid on the CIRI and Polity IV index for each quartile of mean years of male education. Table 3 demonstrate the results with the outcome of interest as CIRI index score and Polity IV Combined Score respectively.  
+
+Beginning with CIRI as the outcome interest, the greatest effect of aid on human rights appears to be in the lowest quartile, where the simple regression yielded a coefficient of 8.280 [SE = 21.788, p > 0.1] and 4.699 [SE = 16.044, p > 0.1] for the covariate-adjusted regression. A one log increase in EU aid would lead to a rise in CIRI Human Empowerment Index score of 8.28 and 4.699 respectively. Under the covariate adjusted model, a rise in EU assistance from \$10 million USD to $15 million USD would lead to a 0.827 rise in CIRI Human Empowerment Index.  In both instances, however, the regressions resulted in an exceptionally high standard error, which may be attributable to a greater variance within each quartile of the dataset. Our results for both the simple and covariate-adjusted regressions reveal little variation in coefficients between quartiles two, three, and four, with the exception of the simple model in the fourth quartile. This indicates that mean years of education, above a certain threshold, does not substantially impact the effectiveness of foreign aid. The second quartile simple regression was the only model to yield significance at an alpha level of 0.05, with a coefficient of 1.782 [SE = 0.708, p < 0.05]. 
+
+Turning to Polity IV, the results are comparable to those from the CIRI analysis. The greatest effect of aid appears to be in the first quartile, but this quartile was once again impacted by particularly high standard errors. The coefficient for the first quartile simple regression is 8.807 [SE = 15.008, p > 0.1] and is 2.951 [SE = 6.854, p > 0.1] for the covariate-adjusted model, which means that one log increase in EU aid would lead to an 8.807 and 2.951 rise in Polity IV Combined Score respectively. In practice, this indicates a rise in EU assistance for a given country from $10 million USD to $15 million USD would lead to a 0.520 increase in Polity IV Combined Score under the adjusted regression model. Only the second quartile simple regression is statistically significant at an alpha level of 0.05 [p < 0.01]. 
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/ciri_table.tex}
+\input{tables/polity_table.tex}
+\end{table}
+```
+
+As noted in the discussion of CIRI and Polity IV quartile results, standard errors impact the ability to interpret the results of the extension. While the standard errors in the first quartile were particularly high for both outcome variables, the standard errors in other quartiles were high compared with the original replication results. The reduced sample size has also likely contributed to higher standard errors – still sufficiently large for the methods used, the impact of any outliers would be magnified in the smaller sample and there may be greater relative variability within the quartiles. 
+
+
+#Conclusion
+Overall, our analysis of the impact of foreign aid across educational quartiles is consistent with Carnegie and Marinov’s (2017) original findings that the allocation of additional EU aid drives increases in the recipient country’s CIRI Human Empowerment Index score and Polity IV Combined Score. Our results also indicate that EU aid may yield the greatest marginal impact on democratization when channeled into countries with the lowest levels of education. However, these findings broadly lack statistical significance, and are subject to high margins of error, which complicate causal inference.  
+
+Ultimately, our findings point to the need for further research to determine the policy significance of allocating aid based on national education levels. There are distinct weaknesses to our use of mean years of male education as a proxy for development status and scholars should select more comprehensive or robust measures of education in future research to capture other indicators of development, such as gender equality. For instance, mean years of male education does not offer an insight into the overall levels of education in a country, literacy and numeracy rates, and whether education is universally available. With access to education as a core principle of the Universal Declaration of Human Rights, it is inextricably linked to the idea of democratization explored in the Carnegie and Marinov (2017) paper. We argue that, whilst there are also complex normative implications to prioritizing aid across low-income countries, our research may support policymakers with constrained resources in making the greatest impact where it is most needed. 
+
+A further limitation of our study is that our results are heavily dependent on the timeframe selected for study. During our analysis for both the replication and extension, we dropped observations from before 1987 to ensure consistency with Carnegie and Marinov (2017). However, the high standard errors resulting from our quartile analysis led us to reevaluate the importance of the time period. To identify missing data or outliers which may have contributed to the high standard errors, we repeated our quartile regressions, dropping observations from before 1990 and 1995. The results changed drastically when we changed the time frame – see Appendix for further detail. We draw two conclusions from this observation. First, there may be problems with the underlying dataset, such as poor or incomplete data. Problems with the quality of the data could undermine the significance of Carnegie and Marinov’s original results, as well as our extension Second, the volatility of results over different timeframes could indicate the inadequacy of the fixed effects. The time and country fixed effects may not sufficiently capture confounding events during the 23-year period under study. For example, they may not capture the time and country variation in the political environment around aid administration and implementation. 
+
+{{< pagebreak >}}
+
+\section*{References}
+Carnegie, Allison (Columbia University); Nikolay Marinov (University Mannheim ). “Replication Data for: Foreign Aid, Human Rights and Democracy Promotion: Evidence from a Natural Experiment.” Harvard Dataverse, 2016. https://doi.org/10.7910/DVN/PLLBQJ.
+
+Feldmann, Horst. “The Long Shadows of Spanish and French Colonial Education.” Kyklos 69, no. 1 (February 2016): 32–64. https://doi.org/10.1111/kykl.12102.
+
+Gafuri, Adea. “Can Democracy Aid Improve Democracy? The European Union’s Democracy Assistance 2002–2018.” Democratization 29, no. 5 (July 4, 2022): 777–97. https://doi.org/10.1080/13510347.2021.2012654.
+
+Knack, Stephen. “Does Foreign Aid Promote Democracy?” International Studies Quarterly 48, no. 1 (2004): 251–66.
+
+Local Burden of Disease Educational Attainment Collaborators. “Mapping Disparities in Education across Low- and Middle-Income Countries.” Nature 577, no. 7789 (January 9, 2020): 235–38. https://doi.org/10.1038/s41586-019-1872-1.
+
+Marshall, Monty, Ted Robert Gurr, and Keith Jaggers,. “POLITY™ IV PROJECT: Political Regime Characteristics and Transitions, 1800-2016, Dataset Users’ Manual.” Center for Systemic Peace, 2017.
+
+OECD, Economic Commission for Latin America and the Caribbean, CAF Development Bank of Latin America, and European Union. Latin American Economic Outlook 2019: Development in Transition. Latin American Economic Outlook. OECD, 2019. https://doi.org/10.1787/g2g9ff18-en.
+
+
+# Appendix {.appendix}
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/quartile_means.tex}
+\end{table}
+```
+
+{{< pagebreak >}}
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/ciri_table_90.tex}
+\end{table}
+```
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/polity_table_90}
+\end{table}
+```
+
+{{< pagebreak >}}
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/ciri_table_95.tex}
+\end{table}
+```
+
+```{=tex}
+\begin{table}[h!]
+\input{tables/polity_table_95}
+\end{table}
+```
+
+
+
+
+
